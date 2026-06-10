@@ -25,6 +25,10 @@ const messageSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  lu: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model('Message', messageSchema);

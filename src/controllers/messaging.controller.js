@@ -15,7 +15,7 @@ exports.getOrCreateConversation = async (req, res, next) => {
       clientId,
       promoteurId,
       projetId,
-    });
+    });//Cherche si une conversation existe déjà entre ces 3 acteurs. Évite les doublons.
 
     if (!conversation) {
       conversation = await Conversation.create({
@@ -23,7 +23,7 @@ exports.getOrCreateConversation = async (req, res, next) => {
         promoteurId,
         projetId,
       });
-    }
+    }//Si aucune trouvée → crée. Dans tous les cas → retourne la conversation. Pattern classique getOrCreate.
 
     res.json(conversation);
   } catch (erreur) {
@@ -62,7 +62,7 @@ exports.getMessages = async (req, res, next) => {
   try {
     const { conversationId } = req.params;
 
-    const messages = await Message.find({ conversationId })
+    const messages = await Message.find({ conversationId }) //Chargé une seule fois à l'ouverture du chat — l'historique existant
       .sort({ sentAt: 1 }); // Du plus ancien au plus récent
 
     res.json(messages);
@@ -78,7 +78,7 @@ exports.createAppointment = async (req, res, next) => {
   try {
     const { conversationId, date, note } = req.body;
 
-    // Récupère io depuis app (on va le configurer dans server.js)
+    // Récupère io depuis app (configuree dans server.js)
     const io = req.app.get('io');
 
     const conversation = await Conversation.findById(conversationId);
@@ -113,7 +113,7 @@ exports.createAppointment = async (req, res, next) => {
     // Pousse le message en temps réel vers la room
     io.to(conversationId).emit('receive_message', messageAuto);
 
-    res.status(201).json({ rendezVous, messageAuto });
+    res.status(201).json({ rendezVous, messageAuto });//Retourne aussi via HTTP pour confirmer à celui qui a fait la requête POST. 
   } catch (erreur) {
     next(erreur);
   }

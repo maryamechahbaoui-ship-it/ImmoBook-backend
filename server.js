@@ -14,6 +14,11 @@ const projectsRoutes     = require('./src/routes/projects.routes');
 const reservationsRoutes = require('./src/routes/reservations.routes');
 const reviewsRoutes      = require('./src/routes/reviews.routes');
 const messagingRoutes    = require('./src/routes/messaging.routes');
+const dashboardRoutes = require('./src/routes/dashboard.routes'); 
+const favoritesRoutes       = require('./src/routes/favorites.routes');
+const preferencesRoutes     = require('./src/routes/preferences.routes');
+const clientDashboardRoutes = require('./src/routes/clientDashboard.routes');
+
 
 const app = express();
 connectDB();
@@ -34,6 +39,10 @@ app.use('/api/v2/projects',     projectsRoutes);
 app.use('/api/v2/reservations', reservationsRoutes);
 app.use('/api/v2/reviews',      reviewsRoutes);
 app.use('/api/v2/messaging',    messagingRoutes);
+app.use('/api/v2/dashboard', dashboardRoutes);
+app.use('/api/v2/favorites',         favoritesRoutes);
+app.use('/api/v2/preferences',       preferencesRoutes);
+app.use('/api/v2/client/dashboard',  clientDashboardRoutes);
 
 app.use(errorHandler);
 
